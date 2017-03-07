@@ -33,6 +33,29 @@ SRCS =	stm32f0xx_adc.c          \
 		stm32f0xx_usart.c        \
 		stm32f0xx_wwdg.c         \
 
+#edit		
+OBJ_ST_DRV =	$(OBJ_BUILD)/stm32f0xx_adc.o          \
+				$(OBJ_BUILD)/stm32f0xx_cec.o          \
+				$(OBJ_BUILD)/stm32f0xx_comp.o         \
+				$(OBJ_BUILD)/stm32f0xx_crc.o          \
+				$(OBJ_BUILD)/stm32f0xx_dac.o          \
+				$(OBJ_BUILD)/stm32f0xx_dbgmcu.o       \
+				$(OBJ_BUILD)/stm32f0xx_dma.o          \
+				$(OBJ_BUILD)/stm32f0xx_exti.o         \
+				$(OBJ_BUILD)/stm32f0xx_flash.o        \
+				$(OBJ_BUILD)/stm32f0xx_gpio.o         \
+				$(OBJ_BUILD)/stm32f0xx_i2c.o          \
+				$(OBJ_BUILD)/stm32f0xx_iwdg.o         \
+				$(OBJ_BUILD)/stm32f0xx_misc.o         \
+				$(OBJ_BUILD)/stm32f0xx_pwr.o          \
+				$(OBJ_BUILD)/stm32f0xx_rcc.o          \
+				$(OBJ_BUILD)/stm32f0xx_rtc.o          \
+				$(OBJ_BUILD)/stm32f0xx_spi.o          \
+				$(OBJ_BUILD)/stm32f0xx_syscfg.o       \
+				$(OBJ_BUILD)/stm32f0xx_tim.o          \
+				$(OBJ_BUILD)/stm32f0xx_usart.o        \
+				$(OBJ_BUILD)/stm32f0xx_wwdg.o         \
+
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: libstm32f0.a
@@ -40,10 +63,10 @@ OBJS = $(SRCS:.c=.o)
 all: libstm32f0.a
 
 %.o : %.c
-	$(CC) $(CFLAGS) -c -o $@ $^
+	$(CC) $(CFLAGS) -c -o $(OBJ_BUILD)/$@ $^
 
 libstm32f0.a: $(OBJS)
-	$(AR) -r $@ $(OBJS)
+	$(AR) -r $@ $(OBJ_ST_DRV)
 
 clean:
 	rm -f $(OBJS) libstm32f0.a

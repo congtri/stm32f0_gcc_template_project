@@ -34,7 +34,7 @@ CFLAGS  = -Wall -g -std=c99 -Os
 #CFLAGS += -mlittle-endian -mthumb -mcpu=cortex-m0 -march=armv6s-m
 CFLAGS += -mlittle-endian -mcpu=cortex-m0  -march=armv6-m -mthumb
 CFLAGS += -ffunction-sections -fdata-sections
-CFLAGS += -Wl,--gc-sections -Wl,-Map=$(PROJ_NAME).map
+CFLAGS += -Wl,--gc-sections -Wl,-Map=$(OUTPUT_DIR)/$(PROJ_NAME).map
 
 ###################################################
 
@@ -69,25 +69,26 @@ lib:
 proj: 	$(PROJ_NAME).elf
 
 $(PROJ_NAME).elf: $(SRCS)
-	$(CC) $(CFLAGS) $^ -o $@ -L$(STD_PERIPH_LIB) -lstm32f0 -L$(LDSCRIPT_INC) -Tstm32f0.ld
-	$(OBJCOPY) -O ihex $(PROJ_NAME).elf $(PROJ_NAME).hex
-	$(OBJCOPY) -O binary $(PROJ_NAME).elf $(PROJ_NAME).bin
-	$(OBJDUMP) -St $(PROJ_NAME).elf >$(PROJ_NAME).lst
-	$(SIZE) $(PROJ_NAME).elf
+	#Build object file
+	$(CC) $(CFLAGS) $^ -o $(OUTPUT_DIR)/$@ -L$(STD_PERIPH_LIB) -lstm32f0 -L$(LDSCRIPT_INC) -Tstm32f0.ld
+	#Build hex file
+	$(OBJCOPY) -O ihex $(OUTPUT_DIR)/$(PROJ_NAME).elf $(OUTPUT_DIR)/$(PROJ_NAME).hex
+	#Build binary file
+	$(OBJCOPY) -O binary $(OUTPUT_DIR)/$(PROJ_NAME).elf $(OUTPUT_DIR)/$(PROJ_NAME).bin
+	#Dump asm file
+	$(OBJDUMP) -St $(OUTPUT_DIR)/$(PROJ_NAME).elf > $(OUTPUT_DIR)/$(PROJ_NAME).lst
+	#Dump code size
+	$(SIZE) $(OUTPUT_DIR)/$(PROJ_NAME).elf
 	
 program: $(PROJ_NAME).bin
-	openocd -f $(OPENOCD_BOARD_DIR)/stm32f0discovery.cfg -f $(OPENOCD_PROC_FILE) -c "stm_flash `pwd`/$(PROJ_NAME).bin" -c shutdown
+	openocd -f $(OPENOCD_BOARD_DIR)/stm32f0discovery.cfg -f $(OPENOCD_PROC_FILE) -c "stm_flash $(OUTPUT_DIR)/$(PROJ_NAME).bin" -c shutdown #edit
 
 clean:
 	rm -rf $(OUTPUT_DIR)
 	find ./ -name '*~' | xargs rm -f
 	rm -f *.o
-	rm -f $(PROJ_NAME).elf
-	rm -f $(PROJ_NAME).hex
-	rm -f $(PROJ_NAME).bin
-	rm -f $(PROJ_NAME).map
-	rm -f $(PROJ_NAME).lst
 	rm -f $(STD_PERIPH_LIB)/*.o
+	rm -f $(STD_PERIPH_LIB)/*.a
 
 reallyclean: clean
 	$(MAKE) -C $(STD_PERIPH_LIB) clean
