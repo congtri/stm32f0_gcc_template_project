@@ -33,28 +33,8 @@ ST_DRV_SRCS =	stm32f0xx_adc.c          \
 				stm32f0xx_usart.c        \
 				stm32f0xx_wwdg.c         \
 
-OBJ_ST_DRV =	$(OBJ_BUILD_DIR)/stm32f0xx_adc.o          \
-				$(OBJ_BUILD_DIR)/stm32f0xx_cec.o          \
-				$(OBJ_BUILD_DIR)/stm32f0xx_comp.o         \
-				$(OBJ_BUILD_DIR)/stm32f0xx_crc.o          \
-				$(OBJ_BUILD_DIR)/stm32f0xx_dac.o          \
-				$(OBJ_BUILD_DIR)/stm32f0xx_dbgmcu.o       \
-				$(OBJ_BUILD_DIR)/stm32f0xx_dma.o          \
-				$(OBJ_BUILD_DIR)/stm32f0xx_exti.o         \
-				$(OBJ_BUILD_DIR)/stm32f0xx_flash.o        \
-				$(OBJ_BUILD_DIR)/stm32f0xx_gpio.o         \
-				$(OBJ_BUILD_DIR)/stm32f0xx_i2c.o          \
-				$(OBJ_BUILD_DIR)/stm32f0xx_iwdg.o         \
-				$(OBJ_BUILD_DIR)/stm32f0xx_misc.o         \
-				$(OBJ_BUILD_DIR)/stm32f0xx_pwr.o          \
-				$(OBJ_BUILD_DIR)/stm32f0xx_rcc.o          \
-				$(OBJ_BUILD_DIR)/stm32f0xx_rtc.o          \
-				$(OBJ_BUILD_DIR)/stm32f0xx_spi.o          \
-				$(OBJ_BUILD_DIR)/stm32f0xx_syscfg.o       \
-				$(OBJ_BUILD_DIR)/stm32f0xx_tim.o          \
-				$(OBJ_BUILD_DIR)/stm32f0xx_usart.o        \
-				$(OBJ_BUILD_DIR)/stm32f0xx_wwdg.o         \
 
+OBJ_ST_DRV = $(ST_DRV_SRCS:%.c=../$(OBJ_BUILD_DIR)/%.o)
 OBJS = $(ST_DRV_SRCS:.c=.o)
 
 .PHONY: libstm32f0.a
@@ -63,10 +43,15 @@ OBJS = $(ST_DRV_SRCS:.c=.o)
 all: libstm32f0.a
 
 %.o : %.c
-	$(CC) $(CFLAGS) -c -o $(OBJ_BUILD_DIR)/$@ $^
+##	Build and print CFLAG to console
+##	$(CC) $(CFLAGS) -c -o ../$(OBJ_BUILD_DIR)/$@ $^
+
+##	Build without print CFLAG to console	
+	@echo "BUILD: $^"
+	@$(CC) $(CFLAGS) -c -o ../$(OBJ_BUILD_DIR)/$@ $^
 
 libstm32f0.a: $(OBJS)
-	$(AR) -r $(OBJ_BUILD_DIR)/$@ $(OBJ_ST_DRV)
+	$(AR) -r ../$(OBJ_BUILD_DIR)/$@ $(OBJ_ST_DRV)
 
 clean:
 #	rm -f libstm32f0.a

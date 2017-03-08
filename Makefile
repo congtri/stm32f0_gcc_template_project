@@ -1,5 +1,5 @@
-export PROJECT_ROOT			?=$(PWD)
-export OUTPUT_DIR			?=$(PROJECT_ROOT)/Output
+export PROJECT_ROOT			?=
+export OUTPUT_DIR			?=Output
 export OBJ_BUILD_DIR		?=$(OUTPUT_DIR)/build
 
 # Directory contens project code folder
@@ -75,7 +75,13 @@ proj: 	$(PROJ_NAME).elf
 
 $(PROJ_NAME).elf: $(CODE_SRCS)
 	#Build object file
-	$(CC) $(CFLAGS) $^ -o $(OUTPUT_DIR)/$@ -L$(OBJ_BUILD_DIR) -lstm32f0 -L$(LDSCRIPT_INC) -Tstm32f0.ld
+##	Build and print CFLAG to console
+#	$(CC) $(CFLAGS) $^ -o $(OUTPUT_DIR)/$@ -L$(OBJ_BUILD_DIR) -lstm32f0 -L$(LDSCRIPT_INC) -Tstm32f0.ld
+
+##	Build without print CFLAG to console
+	@echo "BUILD: $^"
+	@$(CC) $(CFLAGS) $^ -o $(OUTPUT_DIR)/$@ -L$(OBJ_BUILD_DIR) -lstm32f0 -L$(LDSCRIPT_INC) -Tstm32f0.ld
+	
 	#Build hex file
 	$(OBJCOPY) -O ihex $(OUTPUT_DIR)/$(PROJ_NAME).elf $(OUTPUT_DIR)/$(PROJ_NAME).hex
 	#Build binary file
