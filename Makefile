@@ -50,7 +50,7 @@ vpath %.a $(OBJ_BUILD_DIR)
 $(shell mkdir -p ${OUTPUT_DIR} 2>/dev/null)
 $(shell mkdir -p ${OBJ_BUILD_DIR} 2>/dev/null)
 
-CFLAGS += -I inc -I $(STD_PERIPH_LIB) -I $(STD_PERIPH_LIB)/CMSIS/STM32F0xx/Include
+CFLAGS += -I inc -I $(STD_PERIPH_LIB) -I $(STD_PERIPH_LIB)/CMSIS/STM32F0xx
 CFLAGS += -I $(STD_PERIPH_LIB)/CMSIS/Include -I $(STD_PERIPH_LIB)/STM32F0xx_StdPeriph_Driver/inc
 CFLAGS += -include $(STD_PERIPH_LIB)/stm32f0xx_conf.h
 
@@ -95,11 +95,12 @@ program: $(PROJ_NAME).bin
 	openocd -f $(OPENOCD_BOARD_DIR)/stm32f0discovery.cfg -f $(OPENOCD_PROC_FILE) -c "stm_flash $(OUTPUT_DIR)/$(PROJ_NAME).bin" -c shutdown
 
 clean:
-	rm -rf $(OUTPUT_DIR)
-	find ./ -name '*~' | xargs rm -f
-	rm -f *.o
-	rm -f $(STD_PERIPH_LIB)/*.o
-	rm -f $(STD_PERIPH_LIB)/*.a
+	@echo "Clean project"
+	@rm -rf $(OUTPUT_DIR)
+	@find ./ -name '*~' | xargs rm -f
+	@rm -f *.o
+	@rm -f $(STD_PERIPH_LIB)/*.o
+	@rm -f $(STD_PERIPH_LIB)/*.a
 
 reallyclean: clean
-	$(MAKE) -C $(STD_PERIPH_LIB) clean
+	@$(MAKE) -C $(STD_PERIPH_LIB) clean

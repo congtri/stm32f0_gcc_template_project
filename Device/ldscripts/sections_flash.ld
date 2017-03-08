@@ -29,9 +29,9 @@ SECTIONS
 		*(.glue_7)                 /* TBD - needed ? */
 		*(.glue_7t)                /* TBD - needed ? */
 
-	/* Necessary KEEP sections (see http://sourceware.org/ml/newlib/2005/msg00255.html) */
-	KEEP (*(.init))
-	KEEP (*(.fini))
+		/* Necessary KEEP sections (see http://sourceware.org/ml/newlib/2005/msg00255.html) */
+		KEEP (*(.init))
+		KEEP (*(.fini))
 	
 		. = ALIGN(4);
 		_etext = .;
