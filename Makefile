@@ -54,7 +54,7 @@ CFLAGS += -I inc -I $(STD_PERIPH_LIB) -I $(STD_PERIPH_LIB)/CMSIS/STM32F0xx
 CFLAGS += -I $(STD_PERIPH_LIB)/CMSIS/Include -I $(STD_PERIPH_LIB)/STM32F0xx_StdPeriph_Driver/inc
 CFLAGS += -include $(STD_PERIPH_LIB)/stm32f0xx_conf.h
 
-CODE_SRCS += Device/startup_stm32f0xx.s # add startup file to build
+CODE_SRCS += Device/startup/startup_stm32f0xx.s # add startup file to build
 
 # need if you want to build with -DUSE_CMSIS 
 #CODE_SRCS += stm32f0_discovery.c
@@ -76,10 +76,10 @@ proj: 	$(PROJ_NAME).elf
 $(PROJ_NAME).elf: $(CODE_SRCS)
 	#Build object file
 ##	Build and print CFLAG to console
-#	$(CC) $(CFLAGS) $^ -o $(OUTPUT_DIR)/$@ -L$(OBJ_BUILD_DIR) -lstm32f0 -L$(LDSCRIPT_INC) -Tstm32f0.ld
+##	$(CC) $(CFLAGS) $^ -o $(OUTPUT_DIR)/$@ -L$(OBJ_BUILD_DIR) -lstm32f0 -L$(LDSCRIPT_INC) -Tstm32f0.ld
 
-##	Build without print CFLAG to console
-	@echo "BUILD: $^"
+	##	Build without print CFLAG to console
+	@echo "BUILD: $@"
 	@$(CC) $(CFLAGS) $^ -o $(OUTPUT_DIR)/$@ -L$(OBJ_BUILD_DIR) -lstm32f0 -L$(LDSCRIPT_INC) -Tstm32f0.ld
 	
 	#Build hex file

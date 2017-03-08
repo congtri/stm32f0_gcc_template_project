@@ -51,7 +51,8 @@ all: libstm32f0.a
 	@$(CC) $(CFLAGS) -c -o ../$(OBJ_BUILD_DIR)/$@ $^
 
 libstm32f0.a: $(OBJS)
-	$(AR) -r ../$(OBJ_BUILD_DIR)/$@ $(OBJ_ST_DRV)
+	@echo "BUILD: $@"
+	@$(AR) -r ../$(OBJ_BUILD_DIR)/$@ $(OBJ_ST_DRV)
 
 clean:
 #	rm -f libstm32f0.a
