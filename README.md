@@ -30,7 +30,7 @@ This template will serve as a quick-start for those who do not wish to use an ID
    * **system_stm32f0xx.c** can be generated using an XLS file developed by STM. This sets up the system clock values for the project. The file included in this repository is taken from the STM32F0-Discovery firmware package. It is found in the following directory:
       * Libraries/CMSIS/ST/STM32F0xx/Source/Templates/
 
-5. extra/
+5. extra/ (or Device/openocd_scripts)
    * This contains a procedure file used to write the image to the board via OpenOCD
    * **Abstracting the extra folder:** the .cfg file in the extra folder may be placed anywhere so that multiple projects can use one file. Just change the OPENOCD_PROC_FILE variable in the Make file to match the new location.
 
