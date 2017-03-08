@@ -24,7 +24,7 @@ LDSCRIPT_INC=Device/ldscripts
 OPENOCD_BOARD_DIR=/usr/share/openocd/scripts/board
 
 # Configuration (cfg) file containing programming directives for OpenOCD
-OPENOCD_PROC_FILE=OpenOCD_Cfg/stm32f0-openocd.cfg
+OPENOCD_PROC_FILE=Device/openocd_scripts/stm32f0-openocd.cfg
 
 # that's it, no need to change anything below this line!
 
