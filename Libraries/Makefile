@@ -47,7 +47,7 @@ all: libstm32f0.a
 ##	$(CC) $(CFLAGS) -c -o ../$(OBJ_BUILD_DIR)/$@ $^
 
 ##	Build without print CFLAG to console	
-	@echo "BUILD: $^"
+	@echo "BUILD: $^ \t\t-> $@"
 	@$(CC) $(CFLAGS) -c -o ../$(OBJ_BUILD_DIR)/$@ $^
 
 libstm32f0.a: $(OBJS)

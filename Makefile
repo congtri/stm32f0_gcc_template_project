@@ -1,15 +1,14 @@
-export PROJECT_ROOT			?=
+###############################################################################
+export PROJECT_ROOT			?=$(PWD)
 export OUTPUT_DIR			?=Output
 export OBJ_BUILD_DIR		?=$(OUTPUT_DIR)/build
 
 # Directory contens project code folder
-CODE_DIR=Codes
-CODE_DIR_INC=$(CODE_DIR)/inc
-CODE_DIR_SRC=$(CODE_DIR)/src
+CODE_SRC_DIR=Codes/src
 
 # put your *.o targets here, make should handle the rest!
-CODE_SRCS =		$(CODE_DIR_SRC)/main.c                    \
-				$(CODE_DIR_SRC)/system_stm32f0xx.c        \
+CODE_SRCS =		$(CODE_SRC_DIR)/main.c                    \
+				$(CODE_SRC_DIR)/system_stm32f0xx.c        \
 
 # all the files will be generated with this name (main.elf, main.bin, main.hex, etc)
 PROJ_NAME=stm32f0_project
@@ -28,7 +27,7 @@ OPENOCD_PROC_FILE=Device/openocd_scripts/stm32f0-openocd.cfg
 
 # that's it, no need to change anything below this line!
 
-###################################################
+###############################################################################
 
 CC=arm-none-eabi-gcc
 OBJCOPY=arm-none-eabi-objcopy
@@ -41,9 +40,9 @@ CFLAGS += -mlittle-endian -mcpu=cortex-m0  -march=armv6-m -mthumb
 CFLAGS += -ffunction-sections -fdata-sections
 CFLAGS += -Wl,--gc-sections -Wl,-Map=$(OUTPUT_DIR)/$(PROJ_NAME).map
 
-###################################################
+###############################################################################
 
-vpath %.c src
+vpath %.c $(CODE_SRC_DIR)/src
 vpath %.a $(OBJ_BUILD_DIR)
 
 ##Create Output folder
@@ -62,7 +61,7 @@ CODE_SRCS += Device/startup/startup_stm32f0xx.s # add startup file to build
 
 #OBJS = $(CODE_SRCS:.c=.o)
 
-###################################################
+###############################################################################
 
 .PHONY: lib proj
 
@@ -75,9 +74,6 @@ proj: 	$(PROJ_NAME).elf
 
 $(PROJ_NAME).elf: $(CODE_SRCS)
 	#Build object file
-##	Build and print CFLAG to console
-##	$(CC) $(CFLAGS) $^ -o $(OUTPUT_DIR)/$@ -L$(OBJ_BUILD_DIR) -lstm32f0 -L$(LDSCRIPT_INC) -Tstm32f0.ld
-
 	##	Build without print CFLAG to console
 	@echo "BUILD: $@"
 	@$(CC) $(CFLAGS) $^ -o $(OUTPUT_DIR)/$@ -L$(OBJ_BUILD_DIR) -lstm32f0 -L$(LDSCRIPT_INC) -Tstm32f0.ld
