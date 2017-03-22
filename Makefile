@@ -70,7 +70,7 @@ CFLAGS += $(INC_DIR)
 #
 # Linker Flags
 #
-LDFLAGS = -Wl,--gc-sections -Wl,-Map=$(PROJ_NAME).map -L$(LDSCRIPT_INC) -T$(LDSCRIPT)
+LDFLAGS = -Wl,--gc-sections -Wl,-Map=$(TARGET_OUT_DIR)/$(PROJ_NAME).map -L$(LDSCRIPT_INC) -T$(LDSCRIPT)
 
 
 vpath %.c $(SRC_DIR)
@@ -159,7 +159,7 @@ elf: $(PROJ_NAME).elf
 $(PROJ_NAME).elf : $(OBJS_FILE)
 	@echo
 	@echo "Build elf file: $@"
-	@$(CC) $(CFLAGS) -o$(TARGET_OUT_DIR)/$(PROJ_NAME).elf $(OBJS_OUT_BUILD) $(LDFLAGS)
+	@$(CC) $(CFLAGS) -o $(TARGET_OUT_DIR)/$(PROJ_NAME).elf $(OBJS_OUT_BUILD) $(LDFLAGS)
 	@echo
 	
 	@echo "Build hex file: $(TARGET_OUT_DIR)/$(PROJ_NAME).hex"
@@ -175,7 +175,7 @@ $(PROJ_NAME).elf : $(OBJS_FILE)
 	@echo
 	
 	@echo "Dump code size"
-	$(SIZE) $(TARGET_OUT_DIR)/$(PROJ_NAME).elf
+	$(SIZE) -A $(TARGET_OUT_DIR)/$(PROJ_NAME).elf
 
 
 clean:
