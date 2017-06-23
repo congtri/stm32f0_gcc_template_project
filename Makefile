@@ -120,8 +120,27 @@ ASRC_FILE += $(STARTUP_DIR)/startup_stm32f0xx.s
 OBJS       = $(SRC_FILE:%.c=%.o)
 OBJS      += $(ASRC_FILE:%.s=%.o)
 
-# Filltering object file names
+#
+# Filltering object file names, 
+# With each dependency object file (stm32f0xx_adc.o, stm32f0xx_cec.o,...), 
+# makefile will execute Making object file from Assemble file 
+# or Making object file from c source file as bellow
+#
+#
 OBJS_FILE  = $(notdir $(OBJS))
+
+
+# Making object file from Assemble file (.s): create object files from assembler source files
+%.o : %.s
+	@echo
+	@echo ASM: $(STARTUP_FILE)
+	@$(CC) $(CFLAGS) -c -o $(OBJ_OUT_DIR)/$@ $^
+
+# Making object file from .c file : create object files from C source files
+%.o : %.c
+	@echo "CC: $^    \t\t-> $(OBJ_OUT_DIR)/$@"
+	@$(CC) $(CFLAGS) -c -o $(OBJ_OUT_DIR)/$@ $^
+
 
 # Adding object file names with Output directory
 OBJS_OUT_BUILD   = $(OBJS_FILE:%.o=$(OBJ_OUT_DIR)/%.o)
@@ -141,18 +160,6 @@ debug:
 #	@echo "*" OBJ_OUT  : $(OBJS_OUT_BUILD)
 #	@echo "=============================================================================="
 #	@echo 
-
-
-# Assemble: create object files from assembler source files
-%.o : %.s
-	@echo
-	@echo ASM: $(STARTUP_FILE)
-	@$(CC) $(CFLAGS) -c -o $(OBJ_OUT_DIR)/$@ $^
-
-# Compile: create object files from C source files
-%.o : %.c
-	@echo "CC: $^    \t\t-> $(OBJ_OUT_DIR)/$@"
-	@$(CC) $(CFLAGS) -c -o $(OBJ_OUT_DIR)/$@ $^
 
 
 elf: $(PROJ_NAME).elf
